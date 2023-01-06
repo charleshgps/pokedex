@@ -1,6 +1,14 @@
+const pokemonType0 = document.querySelector('.pokemon_type0');
+const pokemonType1 = document.querySelector('.pokemon_type1');
 const pokemonName = document.querySelector('.pokemon_name');
 const pokemonNumber = document.querySelector('.pokemon_number');
 const pokemonImage = document.querySelector('.pokemon_image');
+const pokemonHp = document.querySelector('.hp');
+const pokemonAtk = document.querySelector('.atk');
+const pokemonDef = document.querySelector('.def');
+const pokemonSatk = document.querySelector('.satk');
+const pokemonSdef = document.querySelector('.sdef');
+const pokemonSpd = document.querySelector('.spd');
 
 const form = document.querySelector('.form');
 const input = document.querySelector('.input_search');
@@ -19,11 +27,20 @@ const fetchPokemon = async (pokemon) => {
 
 const renderPokemon = async (pokemon) => {
     pokemonName.innerHTML = 'Loading . . .';
+
     const data = await fetchPokemon(pokemon);
     if (data) {
+        pokemonType0.innerHTML = data['types']['0']['type']['name'];
+        // pokemonType1.innerHTML = data['types']['1']['type']['name'];
         pokemonName.innerHTML = data.name;
         pokemonNumber.innerHTML = data.id;
-        pokemonImage.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default']
+        pokemonImage.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
+        pokemonHp.innerHTML = data['stats']['0']['base_stat'];
+        pokemonAtk.innerHTML = data['stats']['1']['base_stat'];
+        pokemonDef.innerHTML = data['stats']['2']['base_stat'];
+        pokemonSatk.innerHTML = data['stats']['3']['base_stat'];
+        pokemonSdef.innerHTML = data['stats']['4']['base_stat'];
+        pokemonSpd.innerHTML = data['stats']['5']['base_stat'];
         input.value = '';
         searchPokemon = data.id
     } else {

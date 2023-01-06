@@ -25,6 +25,52 @@ main {
     max-width: 425px;
 }
 
+.table {
+    position: absolute;
+    padding: 25px;
+    table-layout: fixed;
+    top: 60px;
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid #333;
+    border-radius: 5px;
+    box-shadow: -3px 4px 0 #888, -5px 7px 0 #333;
+    background-color: #9AAAAA;
+}
+
+th,
+td {
+    padding: 2px;
+    border: 1px solid #333;
+}
+
+.pokemon_type0 {
+    background-color: #E3E3E3;
+    padding: 5px;
+    position: absolute;
+    bottom: 80%;
+    font-size: 20px;
+    left: 55%;
+    text-transform: capitalize;
+    border-radius: 5px;
+    border: 2px solid #333;
+    box-shadow: -3px 4px 0 #888, -5px 7px 0 #333;
+}
+
+.pokemon_type1 {
+    background-color: #E3E3E3;
+    padding: 5px;
+    position: absolute;
+    bottom: 80%;
+    font-size: 20px;
+    left: 55%;
+    text-transform: capitalize;
+    border-radius: 5px;
+    border: 2px solid #333;
+    box-shadow: -3px 4px 0 #888, -5px 7px 0 #333;
+    left: 65%;
+}
+
 .pokemon_image {
     position: absolute;
     bottom: 55%;
@@ -40,6 +86,7 @@ main {
     top: 54.5%;
     right: 27%;
     font-size: clamp(8px, 5vw, 25px);
+
 }
 
 .pokemon_name {
