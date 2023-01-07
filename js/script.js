@@ -44,7 +44,7 @@ const renderPokemon = async (pokemon) => {
         input.value = '';
         searchPokemon = data.id
     } else {
-        pokemonImage.style.display = 'none';
+        pokemonImage.src = './images/icons8-error-96.png';
         pokemonNumber.innerHTML = '';
         pokemonName.innerHTML = 'Not found :c';
     }
