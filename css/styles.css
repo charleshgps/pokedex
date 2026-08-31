@@ -139,3 +139,44 @@ td {
     box-shadow: inset -4px 4px 0 #222;
     font-size: 0.9rem;
 }
+
+.fun_toolbar {
+    position: absolute;
+    top: 4%;
+    left: 8%;
+    display: flex;
+    gap: 6px;
+    z-index: 2;
+}
+
+.icon-btn {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    background-color: #E3E3E3;
+    box-shadow: -2px 3px 0 #888, -3px 5px 0 #333;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.icon-btn:active {
+    box-shadow: inset -2px 2px 0 #888;
+}
+
+.icon-btn.muted {
+    opacity: 0.5;
+}
+
+.mode-toggle {
+    display: block;
+    width: fit-content;
+    margin: 24px auto 0;
+}
+
+.btn-mode-battle {
+    width: auto;
+    padding: 3% 6%;
+    background-color: #c0392b;
+    box-shadow: -2px 3px 0 #7b241c, -4px 6px 0 #4a1510;
+}

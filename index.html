@@ -9,13 +9,20 @@
     <link rel="icon" href="./favicons/favicon-16x16.png">
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/media.css">
+    <link rel="stylesheet" href="./css/battle.css">
     <!-- SCRIPT -->
+    <script defer src="./js/type-colors.js"></script>
     <script defer src="./js/script.js"></script>
+    <script defer src="./js/battle.js"></script>
     <title>Pokedex</title>
 </head>
 
 <body>
     <main>
+        <div class="fun_toolbar">
+            <button type="button" class="icon-btn btn-shiny" title="Alternar sprite shiny">✨</button>
+            <button type="button" class="icon-btn btn-sound" title="Ativar/desativar som">🔊</button>
+        </div>
         <span class="pokemon_type0"></span>
         <span class="pokemon_type1"></span>
         <img src="" alt="pokemon" class="pokemon_image">
@@ -53,6 +60,42 @@
 
         <img src="./images/pokedex.png" alt="Pokedex" class="pokedex">
     </main>
+
+    <div class="mode-toggle">
+        <button type="button" class="button btn-mode-battle" id="toggleBattle">⚔️ Modo Batalha</button>
+    </div>
+
+    <section class="battle-arena" id="battleArena">
+        <h2 class="battle-title">Arena de Batalha ⚔️</h2>
+
+        <div class="fighters-row">
+            <div class="fighter-picker">
+                <form class="fighter-form" id="fighter1Form">
+                    <input type="search" class="battle-input" id="fighter1Input" placeholder="Pokémon 1" required>
+                    <button type="submit" class="button btn-load">Carregar</button>
+                </form>
+                <div class="fighter-card" id="fighter1Card">
+                    <p class="fighter-placeholder">Escolha o primeiro lutador</p>
+                </div>
+            </div>
+
+            <span class="vs-badge">VS</span>
+
+            <div class="fighter-picker">
+                <form class="fighter-form" id="fighter2Form">
+                    <input type="search" class="battle-input" id="fighter2Input" placeholder="Pokémon 2" required>
+                    <button type="submit" class="button btn-load">Carregar</button>
+                </form>
+                <div class="fighter-card" id="fighter2Card">
+                    <p class="fighter-placeholder">Escolha o segundo lutador</p>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="button btn-fight" id="fightButton" disabled>Lutar! 🔥</button>
+
+        <div class="battle-log" id="battleLog"></div>
+    </section>
 </body>
 
 </html>

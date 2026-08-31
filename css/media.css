@@ -146,7 +146,38 @@
         box-shadow: inset -4px 4px 0 #222;
         font-size: 0.1rem;
     }
-    
+
+    .fun_toolbar {
+        top: 3%;
+        left: 5%;
+        gap: 4px;
+    }
+
+    .icon-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+    }
+
+    .battle-arena {
+        width: 90vw;
+        padding: 14px;
+    }
+
+    .fighters-row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .fighter-picker {
+        width: 100%;
+        max-width: none;
+    }
+
+    .vs-badge {
+        margin: 4px 0;
+    }
+
 
 
 }
