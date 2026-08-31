@@ -37,20 +37,31 @@
         border: 2px solid #333;
         border-radius: 5px;
         box-shadow: -3px 4px 0 #888, -5px 7px 0 #333;
-        background-color: #9AAAAA;
+        background-color: #1b3a2f;
     }
-    
+
     th,
     td {
         font-size: 12px;
         padding: 1px;
-        border: 1px solid #333;
+        border: 1px solid #14261e;
+    }
+
+    th {
+        color: #cfe8d8;
+    }
+
+    td span {
+        font-family: 'Courier New', monospace;
+        color: #7cfc9a;
+        font-weight: 700;
+        text-shadow: 0 0 4px rgba(124, 252, 154, 0.65);
     }
 
     table{
         border-radius: 5px;
     }
-    
+
     .pokemon_types {
         position: absolute;
         bottom: 80%;
@@ -61,13 +72,12 @@
 
     .pokemon_type0,
     .pokemon_type1 {
-        background-color: #E3E3E3;
-        padding: 5px;
-        font-size: 20px;
+        padding: 5px 10px;
+        font-size: 16px;
         text-transform: capitalize;
-        border-radius: 5px;
+        border-radius: 20px;
         border: 2px solid #333;
-        box-shadow: -3px 4px 0 #888, -5px 7px 0 #333;
+        box-shadow: -3px 4px 0 #888, -5px 7px 0 #333, inset 0 1px 0 rgba(255, 255, 255, 0.35);
         white-space: nowrap;
     }
     
@@ -137,7 +147,7 @@
     
     .button:active {
         box-shadow: inset -4px 4px 0 #222;
-        font-size: 0.1rem;
+        transform: translate(-2px, 2px);
     }
 
     .fun_toolbar {
@@ -171,6 +181,18 @@
         margin: 4px 0;
     }
 
+    .menu-card {
+        padding: 32px 24px;
+    }
 
+    .menu-title {
+        font-size: 1.8rem;
+    }
+
+    .btn-back {
+        margin: 12px 0 0 12px;
+        padding: 6px 14px;
+        font-size: 0.8rem;
+    }
 
 }

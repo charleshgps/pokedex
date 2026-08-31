@@ -1,19 +1,42 @@
 .battle-arena {
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 16px;
     width: min(92vw, 640px);
-    margin: 24px auto 40px;
+    margin: 12px auto 40px;
     padding: 20px;
     background-color: #fff;
-    border: 2px solid #333;
-    border-radius: 10px;
-    box-shadow: -3px 4px 0 #888, -5px 7px 0 #333;
+    border: 3px solid #333;
+    border-radius: 16px;
+    box-shadow: -4px 5px 0 #888, -7px 9px 0 #333;
+    position: relative;
+    overflow: hidden;
 }
 
 .battle-title {
-    color: #3a444d;
+    width: calc(100% + 40px);
+    margin: -20px -20px 4px;
+    padding: 16px 20px;
+    background: linear-gradient(100deg, #e74c3c, #a83226);
+    color: #fff;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    border-bottom: 3px solid #333;
+}
+
+.confetti-piece {
+    position: absolute;
+    top: -24px;
+    animation: confetti-fall 1.6s ease-in forwards;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes confetti-fall {
+    to {
+        transform: translateY(420px) rotate(360deg);
+        opacity: 0;
+    }
 }
 
 .fighters-row {
@@ -96,9 +119,14 @@
 }
 
 .fighter-placeholder {
-    color: #888;
+    color: #999;
     font-size: 0.85rem;
     text-align: center;
+    line-height: 1.8;
+}
+
+.fighter-placeholder::first-line {
+    font-size: 2rem;
 }
 
 .fighter-sprite {
@@ -119,12 +147,13 @@
 }
 
 .type-badge {
-    padding: 2px 8px;
-    border-radius: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
     font-size: 0.7rem;
     text-transform: capitalize;
     color: #fff;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .hp-bar-container {
@@ -167,6 +196,7 @@
 }
 
 .battle-log {
+    display: none;
     width: 100%;
     max-height: 200px;
     overflow-y: auto;

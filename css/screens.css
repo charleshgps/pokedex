@@ -1,0 +1,129 @@
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255, 255, 255, 0.4) 2px, transparent 2px);
+    background-size: 36px 36px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.screen {
+    display: none;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    flex-direction: column;
+    align-items: center;
+}
+
+.screen.active {
+    display: flex;
+    animation: screen-fade-in 0.3s ease;
+}
+
+/* Só opacidade: evitar "transform" aqui, que promove o próprio container a uma
+   camada composta e pode deixar o hit-test de toque/clique atrasado em cima
+   dele por um instante logo após a animação, roubando o clique dos filhos. */
+@keyframes screen-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.btn-back {
+    align-self: flex-start;
+    width: auto;
+    margin: 18px 0 0 18px;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    background-color: #444;
+}
+
+/* Tela de menu */
+
+.menu-screen.active {
+    justify-content: center;
+}
+
+.menu-card {
+    background: linear-gradient(160deg, #e74c3c, #a83226);
+    border: 3px solid #333;
+    border-radius: 20px;
+    box-shadow: -5px 6px 0 #7b241c, -9px 11px 0 #4a1510;
+    padding: 44px 32px;
+    text-align: center;
+    color: #fff;
+    width: min(88vw, 340px);
+}
+
+.menu-pokeball {
+    width: 60px;
+    height: 60px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #fff 0 48%, #222 48% 52%, #e74c3c 52% 100%);
+    border: 3px solid #222;
+    position: relative;
+    animation: pokeball-bob 2.6s ease-in-out infinite;
+}
+
+.menu-pokeball::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    background-color: #fff;
+    border: 3px solid #222;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes pokeball-bob {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(-4deg);
+    }
+
+    50% {
+        transform: translateY(-6px) rotate(4deg);
+    }
+}
+
+.menu-title {
+    font-size: 2.1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.25);
+}
+
+.menu-subtitle {
+    opacity: 0.9;
+    margin: 4px 0 26px;
+    font-size: 0.9rem;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.menu-btn {
+    width: 100%;
+    padding: 14px;
+    font-size: 1.05rem;
+    background-color: #2c2c2c;
+    box-shadow: -2px 3px 0 #111, -4px 6px 0 #000;
+}
+
+.menu-btn-battle {
+    background-color: #1b1b1b;
+}

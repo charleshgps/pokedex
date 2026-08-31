@@ -39,8 +39,8 @@ buttonSound.textContent = soundEnabled ? '🔊' : '🔇';
 buttonSound.classList.toggle('muted', !soundEnabled);
 
 const applyTypeBadge = (el, type) => {
-    el.textContent = type;
-    el.style.backgroundColor = getTypeColor(type);
+    el.innerHTML = `${getTypeIcon(type)} ${type}`;
+    el.style.background = getTypeGradient(type);
     el.style.color = '#fff';
     el.style.textShadow = '1px 1px 1px rgba(0, 0, 0, 0.4)';
 };

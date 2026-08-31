@@ -2,7 +2,6 @@
 // Pokémon (a mesma fórmula de dano da série principal, simplificada) e a
 // tabela oficial de efetividade de tipo vinda da própria PokeAPI.
 
-const battleToggleButton = document.getElementById('toggleBattle');
 const battleArena = document.getElementById('battleArena');
 
 const fighter1Form = document.getElementById('fighter1Form');
@@ -28,11 +27,19 @@ const typeRelationsCache = {};
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 const capitalize = (text) => text.charAt(0).toUpperCase() + text.slice(1);
 
-battleToggleButton.addEventListener('click', () => {
-    const isHidden = battleArena.style.display !== 'flex';
-    battleArena.style.display = isHidden ? 'flex' : 'none';
-    battleToggleButton.textContent = isHidden ? '🧭 Modo Pokédex' : '⚔️ Modo Batalha';
-});
+const spawnConfetti = () => {
+    const pieces = ['🎉', '⭐', '✨', '🎊'];
+    for (let i = 0; i < 24; i += 1) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti-piece';
+        piece.textContent = pieces[Math.floor(Math.random() * pieces.length)];
+        piece.style.left = `${Math.random() * 100}%`;
+        piece.style.animationDelay = `${Math.random() * 0.4}s`;
+        piece.style.fontSize = `${14 + Math.random() * 14}px`;
+        battleArena.appendChild(piece);
+        piece.addEventListener('animationend', () => piece.remove());
+    }
+};
 
 const fetchFighter = async (query) => {
     const APIResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${String(query).trim().toLowerCase()}`);
@@ -64,14 +71,14 @@ const renderFighterCard = (cardEl, fighter) => {
         <img src="${fighter.sprite}" alt="${fighter.name}" class="fighter-sprite">
         <p class="fighter-name">#${fighter.id} ${capitalize(fighter.name)}</p>
         <p class="fighter-types">
-            ${fighter.types.map((type) => `<span class="type-badge" data-type="${type}">${type}</span>`).join('')}
+            ${fighter.types.map((type) => `<span class="type-badge" data-type="${type}">${getTypeIcon(type)} ${capitalize(type)}</span>`).join('')}
         </p>
         <div class="hp-bar-container"><div class="hp-bar"></div></div>
         <p class="hp-text">${maxHp} / ${maxHp} HP</p>
     `;
 
     cardEl.querySelectorAll('.type-badge').forEach((badge) => {
-        badge.style.backgroundColor = getTypeColor(badge.dataset.type);
+        badge.style.background = getTypeGradient(badge.dataset.type);
     });
 };
 
@@ -120,22 +127,31 @@ const getTypeMultiplier = async (attackType, defenderTypes) => {
 
 // Cada Pokémon "ataca" com seu próprio tipo primário (bônus STAB garantido),
 // escolhendo entre ATK/DEF ou S.ATK/S.DEF conforme seu maior stat ofensivo.
+//
+// Quando o tipo do atacante não afeta o defensor (ex: Elétrico em Terra), a
+// luta viraria uma derrota garantida e sem chance nenhuma — em vez disso o
+// Pokémon tenta um "golpe de desespero" neutro, mais fraco e sem STAB, pra
+// nenhuma combinação de tipos ser 100% intransponível.
 const calculateDamage = async (attacker, defender) => {
     const usesSpecial = attacker.stats.satk > attacker.stats.atk;
     const atkStat = usesSpecial ? attacker.stats.satk : attacker.stats.atk;
     const defStat = usesSpecial ? defender.stats.sdef : defender.stats.def;
     const attackType = attacker.types[0];
-    const multiplier = await getTypeMultiplier(attackType, defender.types);
+    let multiplier = await getTypeMultiplier(attackType, defender.types);
+
+    const struggling = multiplier === 0;
+    if (struggling) multiplier = 1;
 
     const isCrit = Math.random() < 1 / 16;
     const randomFactor = 0.85 + Math.random() * 0.15;
-    const stab = 1.5;
+    const stab = struggling ? 1 : 1.5;
 
     let damage = (((2 * LEVEL) / 5 + 2) * MOVE_POWER * (atkStat / defStat)) / 50 + 2;
     damage = Math.floor(damage * stab * multiplier * (isCrit ? 1.5 : 1) * randomFactor);
-    damage = multiplier === 0 ? 0 : Math.max(1, damage);
+    if (struggling) damage = Math.floor(damage * 0.5);
+    damage = Math.max(1, damage);
 
-    return { damage, multiplier, isCrit, usesSpecial };
+    return { damage, multiplier: struggling ? 0 : multiplier, isCrit, usesSpecial, struggling };
 };
 
 fighter1Form.addEventListener('submit', async (event) => {
@@ -171,6 +187,7 @@ const runBattle = async () => {
     battleInProgress = true;
     updateFightButtonState();
     battleLog.innerHTML = '';
+    battleLog.style.display = 'block';
 
     fighter1.currentHp = fighter1.maxHp;
     fighter2.currentHp = fighter2.maxHp;
@@ -191,15 +208,15 @@ const runBattle = async () => {
         for (const [attacker, defender] of [[first, second], [second, first]]) {
             if (attacker.currentHp <= 0 || defender.currentHp <= 0) break;
 
-            const { damage, multiplier, isCrit, usesSpecial } = await calculateDamage(attacker, defender);
+            const { damage, multiplier, isCrit, usesSpecial, struggling } = await calculateDamage(attacker, defender);
             defender.currentHp = Math.max(0, defender.currentHp - damage);
             updateHpBar(defender);
             shakeCard(defender);
 
             let message = `${usesSpecial ? '✨' : '👊'} ${capitalize(attacker.name)} ataca ${capitalize(defender.name)} e causa ${damage} de dano!`;
             if (isCrit) message += ' 💥 Golpe crítico!';
-            if (multiplier > 1) message += ' Super efetivo!';
-            else if (multiplier === 0) message += ' Não afeta o oponente...';
+            if (struggling) message += ' 😖 O ataque não afeta o oponente, então tenta um golpe de desespero!';
+            else if (multiplier > 1) message += ' Super efetivo!';
             else if (multiplier < 1) message += ' Não é muito efetivo...';
             logMessage(message);
 
@@ -207,6 +224,7 @@ const runBattle = async () => {
 
             if (defender.currentHp <= 0) {
                 logMessage(`🏆 ${capitalize(attacker.name)} venceu a batalha!`);
+                spawnConfetti();
                 battleInProgress = false;
                 updateFightButtonState();
                 return;
