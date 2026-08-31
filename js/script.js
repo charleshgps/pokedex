@@ -16,6 +16,7 @@ const buttonPrev = document.querySelector('.btn-prev');
 const buttonNext = document.querySelector('.btn-next');
 const buttonShiny = document.querySelector('.btn-shiny');
 const buttonSound = document.querySelector('.btn-sound');
+const soundVolume = document.querySelector('.sound-volume');
 
 const MAX_POKEMON = 1025;
 
@@ -32,6 +33,10 @@ let isShiny = false;
 let soundEnabled = readJSON('pokedexSound', true);
 buttonSound.textContent = soundEnabled ? '🔊' : '🔇';
 buttonSound.classList.toggle('muted', !soundEnabled);
+
+let cryVolume = readJSON('pokedexVolume', 50);
+soundVolume.value = cryVolume;
+soundVolume.disabled = !soundEnabled;
 
 // Conquistas de exploração: lembra quais Pokémon já foram vistos.
 const VIEWED_KEY = 'pokedexViewedIds';
@@ -77,7 +82,7 @@ const playCry = (data) => {
     if (!cryUrl) return;
     try {
         const audio = new Audio(cryUrl);
-        audio.volume = 0.5;
+        audio.volume = cryVolume / 100;
         audio.play().catch(() => {});
     } catch (error) {
         // ignora falha de reprodução (política de autoplay, formato não suportado, etc.)
@@ -173,7 +178,13 @@ buttonSound.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
     buttonSound.textContent = soundEnabled ? '🔊' : '🔇';
     buttonSound.classList.toggle('muted', !soundEnabled);
+    soundVolume.disabled = !soundEnabled;
     writeJSON('pokedexSound', soundEnabled);
+})
+
+soundVolume.addEventListener('input', () => {
+    cryVolume = Number(soundVolume.value);
+    writeJSON('pokedexVolume', cryVolume);
 })
 
 
