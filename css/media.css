@@ -153,9 +153,11 @@
         transform: translate(-2px, 2px);
     }
 
+    .pokedex-topbar {
+        margin-top: 12px;
+    }
+
     .fun_toolbar {
-        top: 3%;
-        left: 5%;
         gap: 4px;
     }
 

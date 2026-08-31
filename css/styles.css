@@ -164,13 +164,21 @@ td span {
     transform: translate(-2px, 2px);
 }
 
+.pokedex-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: min(92vw, 455px);
+    margin: 18px auto 0;
+}
+
+.pokedex-topbar .btn-back {
+    margin: 0;
+}
+
 .fun_toolbar {
-    position: absolute;
-    top: 4%;
-    left: 8%;
     display: flex;
     gap: 6px;
-    z-index: 2;
 }
 
 .icon-btn {
