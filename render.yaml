@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: pokedex
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .

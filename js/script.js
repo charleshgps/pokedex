@@ -15,7 +15,12 @@ const input = document.querySelector('.input_search');
 const buttonPrev = document.querySelector('.btn-prev');
 const buttonNext = document.querySelector('.btn-next');
 
+const MAX_POKEMON = 1025;
+
 let searchPokemon = 1;
+// Increments on every render call so a slow, stale response can be
+// detected and discarded when a newer request has already started.
+let requestId = 0;
 
 const fetchPokemon = async (pokemon) => {
     const APIResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`);
@@ -26,25 +31,44 @@ const fetchPokemon = async (pokemon) => {
 }
 
 const renderPokemon = async (pokemon) => {
+    const currentRequest = ++requestId;
     pokemonName.innerHTML = 'Loading . . .';
 
-    const data = await fetchPokemon(pokemon);
+    let data;
+    try {
+        data = await fetchPokemon(pokemon);
+    } catch (error) {
+        data = null;
+    }
+
+    // A newer request started while this one was in flight — ignore this result.
+    if (currentRequest !== requestId) return;
+
     if (data) {
-        pokemonType0.innerHTML = data['types']['0']['type']['name'];
-        // pokemonType1.innerHTML = data['types']['1']['type']['name'];
+        pokemonType0.innerHTML = data.types[0].type.name;
+        if (data.types[1]) {
+            pokemonType1.innerHTML = data.types[1].type.name;
+            pokemonType1.style.display = '';
+        } else {
+            pokemonType1.innerHTML = '';
+            pokemonType1.style.display = 'none';
+        }
         pokemonName.innerHTML = data.name;
         pokemonNumber.innerHTML = data.id;
-        pokemonImage.src = data['sprites']['versions']['generation-v']['black-white']['animated']['front_default'];
-        pokemonHp.innerHTML = data['stats']['0']['base_stat'];
-        pokemonAtk.innerHTML = data['stats']['1']['base_stat'];
-        pokemonDef.innerHTML = data['stats']['2']['base_stat'];
-        pokemonSatk.innerHTML = data['stats']['3']['base_stat'];
-        pokemonSdef.innerHTML = data['stats']['4']['base_stat'];
-        pokemonSpd.innerHTML = data['stats']['5']['base_stat'];
+        pokemonImage.src = data.sprites.versions['generation-v']['black-white'].animated.front_default;
+        pokemonImage.alt = data.name;
+        pokemonHp.innerHTML = data.stats[0].base_stat;
+        pokemonAtk.innerHTML = data.stats[1].base_stat;
+        pokemonDef.innerHTML = data.stats[2].base_stat;
+        pokemonSatk.innerHTML = data.stats[3].base_stat;
+        pokemonSdef.innerHTML = data.stats[4].base_stat;
+        pokemonSpd.innerHTML = data.stats[5].base_stat;
         input.value = '';
         searchPokemon = data.id
     } else {
         pokemonImage.src = './images/icons8-error-96.png';
+        pokemonImage.alt = 'pokemon not found';
+        pokemonType1.style.display = 'none';
         pokemonNumber.innerHTML = '';
         pokemonName.innerHTML = 'Not found :c';
     }
@@ -52,7 +76,7 @@ const renderPokemon = async (pokemon) => {
 
 form.addEventListener('submit', (event) => {
     event.preventDefault();
-    renderPokemon(input.value.toLowerCase());
+    renderPokemon(input.value.trim().toLowerCase());
 })
 
 buttonPrev.addEventListener('click', () => {
@@ -63,8 +87,10 @@ buttonPrev.addEventListener('click', () => {
 })
 
 buttonNext.addEventListener('click', () => {
-    searchPokemon += 1
-    renderPokemon(searchPokemon)
+    if (searchPokemon < MAX_POKEMON) {
+        searchPokemon += 1
+        renderPokemon(searchPokemon)
+    }
 })
 
 
