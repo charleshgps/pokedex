@@ -64,7 +64,7 @@
 
     .pokemon_types {
         position: absolute;
-        top: 30%;
+        top: 22.5%;
         right: 22%;
         max-width: 68%;
         display: flex;
@@ -75,8 +75,8 @@
 
     .pokemon_type0,
     .pokemon_type1 {
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
         flex-shrink: 0;
         display: flex;
         align-items: center;

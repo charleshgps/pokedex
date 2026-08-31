@@ -29,6 +29,33 @@ const team2 = { roster: [], activeIndex: 0 };
 let battleInProgress = false;
 const typeRelationsCache = {};
 
+// Um lado de cada vez: time, elementos do card/roster e os controles de
+// filtro (tipo/geração/categoria) + combo box de sugestões + aleatório.
+const battleSides = [
+    {
+        team: team1,
+        input: fighter1Input,
+        card: fighter1Card,
+        strip: roster1Strip,
+        typeSelect: document.getElementById('fighter1Type'),
+        genSelect: document.getElementById('fighter1Gen'),
+        categorySelect: document.getElementById('fighter1Category'),
+        datalist: document.getElementById('fighter1List'),
+        randomButton: document.getElementById('fighter1Random'),
+    },
+    {
+        team: team2,
+        input: fighter2Input,
+        card: fighter2Card,
+        strip: roster2Strip,
+        typeSelect: document.getElementById('fighter2Type'),
+        genSelect: document.getElementById('fighter2Gen'),
+        categorySelect: document.getElementById('fighter2Category'),
+        datalist: document.getElementById('fighter2List'),
+        randomButton: document.getElementById('fighter2Random'),
+    },
+];
+
 const getActive = (team) => team.roster[team.activeIndex] || null;
 
 const spawnConfetti = () => {
@@ -205,7 +232,82 @@ resetTeamsButton.addEventListener('click', () => {
     roster2Strip.innerHTML = '';
     battleLog.innerHTML = '';
     battleLog.style.display = 'none';
+    battleSides.forEach((side) => {
+        side.typeSelect.value = '';
+        side.genSelect.value = '';
+        side.categorySelect.value = '';
+    });
     updateFightButtonState();
+});
+
+// Popula os selects de tipo e geração (as opções de categoria já vêm
+// prontas no HTML, já que a lista é curta e fixa).
+const capitalizeType = (type) => capitalize(type.replace(/-/g, ' '));
+
+battleSides.forEach((side) => {
+    Object.keys(TYPE_COLORS).forEach((type) => {
+        const option = document.createElement('option');
+        option.value = type;
+        option.textContent = capitalizeType(type);
+        side.typeSelect.appendChild(option);
+    });
+    GENERATIONS.forEach((gen) => {
+        const option = document.createElement('option');
+        option.value = gen.id;
+        option.textContent = gen.label;
+        side.genSelect.appendChild(option);
+    });
+});
+
+const currentFilters = (side) => ({
+    type: side.typeSelect.value || null,
+    gen: side.genSelect.value || null,
+    category: side.categorySelect.value || null,
+});
+
+// Recarrega as sugestões do combo box (datalist) de acordo com os filtros
+// ativos daquele lado. Guarda um número de pedido pra ignorar uma resposta
+// antiga caso o usuário troque de filtro de novo antes dela voltar.
+const refreshSuggestions = async (side) => {
+    side.suggestionRequest = (side.suggestionRequest || 0) + 1;
+    const requestId = side.suggestionRequest;
+    const candidates = await getFilteredCandidates(currentFilters(side));
+    if (side.suggestionRequest !== requestId) return;
+    side.datalist.innerHTML = candidates
+        .slice(0, 400)
+        .map((p) => `<option value="${capitalize(p.name)}"></option>`)
+        .join('');
+};
+
+battleSides.forEach((side) => {
+    [side.typeSelect, side.genSelect, side.categorySelect].forEach((select) => {
+        select.addEventListener('change', () => refreshSuggestions(side));
+    });
+    // A lista completa (sem filtro nenhum) só é buscada quando o usuário
+    // realmente for procurar — evita puxar ~1000 Pokémon toda vez que a
+    // tela de batalha abre.
+    side.input.addEventListener('focus', () => refreshSuggestions(side), { once: true });
+
+    side.randomButton.addEventListener('click', async () => {
+        if (battleInProgress) return;
+        if (side.team.roster.length >= MAX_TEAM_SIZE) {
+            logMessage(`⚠️ Esse time já tem o máximo de ${MAX_TEAM_SIZE} Pokémon.`);
+            return;
+        }
+        side.randomButton.disabled = true;
+        try {
+            const candidates = await getFilteredCandidates(currentFilters(side));
+            if (candidates.length === 0) {
+                logMessage('⚠️ Nenhum Pokémon encontrado com esses filtros.');
+                return;
+            }
+            const pick = candidates[Math.floor(Math.random() * candidates.length)];
+            side.input.value = pick.name;
+            await addFighterToTeam(side.team, side.input, side.card, side.strip);
+        } finally {
+            side.randomButton.disabled = false;
+        }
+    });
 });
 
 const getTypeMultiplier = async (attackType, defenderTypes) => {

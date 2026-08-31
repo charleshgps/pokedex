@@ -59,7 +59,7 @@ td span {
 
 .pokemon_types {
     position: absolute;
-    top: 30%;
+    top: 22.5%;
     right: 22%;
     max-width: 68%;
     display: flex;
@@ -69,11 +69,13 @@ td span {
 }
 
 /* Badges de tipo no estilo dos Símbolos de Energia do TCG: um círculo
-   colorido e "glossy" com o glifo do tipo no meio, igual às cartas. */
+   colorido e "glossy" com o glifo do tipo no meio, igual às cartas.
+   Ficam na faixa acima do display (ao lado dos LEDs), por isso o
+   tamanho é mais compacto do que um badge "solto" na tela toda. */
 .pokemon_type0,
 .pokemon_type1 {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
     flex-shrink: 0;
     display: flex;
     align-items: center;

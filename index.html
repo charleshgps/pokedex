@@ -17,6 +17,7 @@
     <!-- SCRIPT -->
     <script defer src="./js/utils.js"></script>
     <script defer src="./js/type-colors.js"></script>
+    <script defer src="./js/pokemon-filters.js"></script>
     <script defer src="./js/achievements.js"></script>
     <script defer src="./js/theme.js"></script>
     <script defer src="./js/script.js"></script>
@@ -103,10 +104,26 @@
 
             <div class="fighters-row">
                 <div class="fighter-picker">
+                    <div class="fighter-filters">
+                        <select class="filter-select" id="fighter1Type" title="Filtrar por tipo">
+                            <option value="">Tipo</option>
+                        </select>
+                        <select class="filter-select" id="fighter1Gen" title="Filtrar por geração">
+                            <option value="">Geração</option>
+                        </select>
+                        <select class="filter-select" id="fighter1Category" title="Filtrar por categoria">
+                            <option value="">Categoria</option>
+                            <option value="legendary">Lendário</option>
+                            <option value="mythical">Mítico</option>
+                            <option value="normal">Comum</option>
+                        </select>
+                    </div>
                     <form class="fighter-form" id="fighter1Form">
-                        <input type="search" class="battle-input" id="fighter1Input" placeholder="Adicionar Pokémon" required>
+                        <input type="search" class="battle-input" id="fighter1Input" list="fighter1List" placeholder="Adicionar Pokémon" required autocomplete="off">
+                        <datalist id="fighter1List"></datalist>
                         <button type="submit" class="button btn-load">+ Add</button>
                     </form>
+                    <button type="button" class="button btn-random" id="fighter1Random">🎲 Aleatório</button>
                     <div class="fighter-card" id="fighter1Card">
                         <p class="fighter-placeholder">❔<br>Monte seu time (1 a 6)</p>
                     </div>
@@ -116,10 +133,26 @@
                 <span class="vs-badge">VS</span>
 
                 <div class="fighter-picker">
+                    <div class="fighter-filters">
+                        <select class="filter-select" id="fighter2Type" title="Filtrar por tipo">
+                            <option value="">Tipo</option>
+                        </select>
+                        <select class="filter-select" id="fighter2Gen" title="Filtrar por geração">
+                            <option value="">Geração</option>
+                        </select>
+                        <select class="filter-select" id="fighter2Category" title="Filtrar por categoria">
+                            <option value="">Categoria</option>
+                            <option value="legendary">Lendário</option>
+                            <option value="mythical">Mítico</option>
+                            <option value="normal">Comum</option>
+                        </select>
+                    </div>
                     <form class="fighter-form" id="fighter2Form">
-                        <input type="search" class="battle-input" id="fighter2Input" placeholder="Adicionar Pokémon" required>
+                        <input type="search" class="battle-input" id="fighter2Input" list="fighter2List" placeholder="Adicionar Pokémon" required autocomplete="off">
+                        <datalist id="fighter2List"></datalist>
                         <button type="submit" class="button btn-load">+ Add</button>
                     </form>
+                    <button type="button" class="button btn-random" id="fighter2Random">🎲 Aleatório</button>
                     <div class="fighter-card" id="fighter2Card">
                         <p class="fighter-placeholder">❔<br>Monte seu time (1 a 6)</p>
                     </div>
