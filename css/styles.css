@@ -59,8 +59,8 @@ td span {
 
 .pokemon_types {
     position: absolute;
-    bottom: 80%;
-    right: 5%;
+    top: 30%;
+    right: 22%;
     max-width: 68%;
     display: flex;
     flex-wrap: wrap;
@@ -209,4 +209,16 @@ td span {
 
 .icon-btn.muted {
     opacity: 0.5;
+}
+
+.sound-volume {
+    width: 70px;
+    accent-color: #444;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.sound-volume:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }

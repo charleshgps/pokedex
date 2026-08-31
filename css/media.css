@@ -64,8 +64,8 @@
 
     .pokemon_types {
         position: absolute;
-        bottom: 80%;
-        right: 4%;
+        top: 30%;
+        right: 22%;
         max-width: 68%;
         display: flex;
         flex-wrap: wrap;
@@ -167,6 +167,10 @@
         width: 24px;
         height: 24px;
         font-size: 11px;
+    }
+
+    .sound-volume {
+        width: 48px;
     }
 
     .battle-arena {
