@@ -181,6 +181,37 @@
         margin: 4px 0;
     }
 
+    .battle-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    /* IDs pra garantir prioridade sobre as regras de largura definidas em
+       battle.css, que é carregado depois de media.css no <head> */
+    #fightButton,
+    #resetTeamsButton {
+        width: 100%;
+    }
+
+    .roster-icon {
+        width: 22px;
+        height: 22px;
+    }
+
+    .quiz-card,
+    .achievements-card {
+        padding: 16px;
+    }
+
+    .achievements-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .achievement-toast {
+        width: 90vw;
+        font-size: 0.8rem;
+    }
+
     .menu-card {
         padding: 32px 24px;
     }

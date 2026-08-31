@@ -29,14 +29,32 @@ let requestId = 0;
 let currentPokemonData = null;
 let isShiny = false;
 
-let soundEnabled = true;
-try {
-    soundEnabled = localStorage.getItem('pokedexSound') !== 'off';
-} catch (error) {
-    soundEnabled = true;
-}
+let soundEnabled = readJSON('pokedexSound', true);
 buttonSound.textContent = soundEnabled ? '🔊' : '🔇';
 buttonSound.classList.toggle('muted', !soundEnabled);
+
+// Conquistas de exploração: lembra quais Pokémon já foram vistos.
+const VIEWED_KEY = 'pokedexViewedIds';
+let viewedIds = readJSON(VIEWED_KEY, []);
+
+const trackViewed = (id) => {
+    if (!viewedIds.includes(id)) {
+        viewedIds.push(id);
+        writeJSON(VIEWED_KEY, viewedIds);
+    }
+    unlockAchievement('first_view');
+    if (viewedIds.length >= 10) unlockAchievement('explorer_10');
+    if (viewedIds.length >= 50) unlockAchievement('explorer_50');
+};
+
+// Easter egg: ~1 em 100 vezes, o Pokémon já aparece shiny por sorte.
+const SHINY_EASTER_EGG_CHANCE = 1 / 100;
+
+const setShinyState = (shiny) => {
+    isShiny = shiny;
+    pokemonImage.src = getSpriteUrl(currentPokemonData, shiny);
+    pokemonImage.classList.toggle('shiny-glow', shiny);
+};
 
 const applyTypeBadge = (el, type) => {
     el.innerHTML = `${getTypeIcon(type)} ${type}`;
@@ -90,7 +108,6 @@ const renderPokemon = async (pokemon) => {
 
     if (data) {
         currentPokemonData = data;
-        isShiny = false;
 
         applyTypeBadge(pokemonType0, data.types[0].type.name);
         if (data.types[1]) {
@@ -102,7 +119,9 @@ const renderPokemon = async (pokemon) => {
         }
         pokemonName.innerHTML = data.name;
         pokemonNumber.innerHTML = data.id;
-        pokemonImage.src = getSpriteUrl(data, false);
+
+        const foundShinyByLuck = Math.random() < SHINY_EASTER_EGG_CHANCE;
+        setShinyState(foundShinyByLuck);
         pokemonImage.alt = data.name;
         pokemonHp.innerHTML = data.stats[0].base_stat;
         pokemonAtk.innerHTML = data.stats[1].base_stat;
@@ -113,6 +132,8 @@ const renderPokemon = async (pokemon) => {
         input.value = '';
         searchPokemon = data.id
         playCry(data);
+        trackViewed(data.id);
+        if (foundShinyByLuck) unlockAchievement('shiny_luck');
     } else {
         currentPokemonData = null;
         pokemonImage.src = './images/icons8-error-96.png';
@@ -144,19 +165,15 @@ buttonNext.addEventListener('click', () => {
 
 buttonShiny.addEventListener('click', () => {
     if (!currentPokemonData) return;
-    isShiny = !isShiny;
-    pokemonImage.src = getSpriteUrl(currentPokemonData, isShiny);
+    setShinyState(!isShiny);
+    unlockAchievement('shiny_hunter');
 })
 
 buttonSound.addEventListener('click', () => {
     soundEnabled = !soundEnabled;
     buttonSound.textContent = soundEnabled ? '🔊' : '🔇';
     buttonSound.classList.toggle('muted', !soundEnabled);
-    try {
-        localStorage.setItem('pokedexSound', soundEnabled ? 'on' : 'off');
-    } catch (error) {
-        // ignora erro de storage (navegação privada, storage desabilitado, etc.)
-    }
+    writeJSON('pokedexSound', soundEnabled);
 })
 
 

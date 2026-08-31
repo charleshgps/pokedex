@@ -6,7 +6,7 @@
     width: min(92vw, 640px);
     margin: 12px auto 40px;
     padding: 20px;
-    background-color: #fff;
+    background-color: var(--surface);
     border: 3px solid #333;
     border-radius: 16px;
     box-shadow: -4px 5px 0 #888, -7px 9px 0 #333;
@@ -22,6 +22,12 @@
     color: #fff;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
     border-bottom: 3px solid #333;
+}
+
+.battle-subtitle {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: -8px;
 }
 
 .confetti-piece {
@@ -69,7 +75,8 @@
     border: 2px solid #333;
     border-radius: 5px;
     font-weight: 600;
-    color: #3a444d;
+    color: var(--text-primary);
+    background-color: var(--input-bg);
 }
 
 .btn-load {
@@ -90,12 +97,42 @@
     border-radius: 8px;
     padding: 10px;
     min-height: 170px;
-    background-color: #f4f6f6;
+    background-color: var(--surface-alt);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 4px;
+}
+
+.roster-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: center;
+    min-height: 30px;
+}
+
+.roster-icon {
+    width: 26px;
+    height: 26px;
+    padding: 2px;
+    border: 2px solid #333;
+    border-radius: 50%;
+    background-color: var(--surface-alt);
+    image-rendering: pixelated;
+    opacity: 0.55;
+}
+
+.roster-icon.active {
+    opacity: 1;
+    border-color: #e74c3c;
+    box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.4);
+}
+
+.roster-icon.fainted {
+    opacity: 0.2;
+    filter: grayscale(1);
 }
 
 .fighter-card.shake {
@@ -138,7 +175,7 @@
 .fighter-name {
     font-weight: 700;
     text-transform: capitalize;
-    color: #3a444d;
+    color: var(--text-primary);
 }
 
 .fighter-types {
@@ -182,7 +219,13 @@
 
 .hp-text {
     font-size: 0.75rem;
-    color: #3a444d;
+    color: var(--text-primary);
+}
+
+.battle-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
 
 .btn-fight {
@@ -193,6 +236,13 @@
 .btn-fight:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.btn-reset {
+    width: auto;
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    background-color: #555;
 }
 
 .battle-log {

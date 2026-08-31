@@ -9,12 +9,19 @@
     <link rel="icon" href="./favicons/favicon-16x16.png">
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/media.css">
+    <link rel="stylesheet" href="./css/theme.css">
     <link rel="stylesheet" href="./css/screens.css">
     <link rel="stylesheet" href="./css/battle.css">
+    <link rel="stylesheet" href="./css/quiz.css">
+    <link rel="stylesheet" href="./css/achievements.css">
     <!-- SCRIPT -->
+    <script defer src="./js/utils.js"></script>
     <script defer src="./js/type-colors.js"></script>
+    <script defer src="./js/achievements.js"></script>
+    <script defer src="./js/theme.js"></script>
     <script defer src="./js/script.js"></script>
     <script defer src="./js/battle.js"></script>
+    <script defer src="./js/quiz.js"></script>
     <script defer src="./js/navigation.js"></script>
     <title>Pokedex</title>
 </head>
@@ -22,12 +29,15 @@
 <body>
     <section class="screen menu-screen active" id="menuScreen">
         <div class="menu-card">
+            <button type="button" class="icon-btn theme-toggle" id="themeToggle" title="Alternar tema">☀️</button>
             <div class="menu-pokeball"></div>
             <h1 class="menu-title">Pokédex</h1>
             <p class="menu-subtitle">Explore, batalhe, divirta-se</p>
             <div class="menu-buttons">
                 <button type="button" class="button menu-btn" id="goPokedex">📖 Pokédex</button>
                 <button type="button" class="button menu-btn menu-btn-battle" id="goBattle">⚔️ Batalha</button>
+                <button type="button" class="button menu-btn menu-btn-quiz" id="goQuiz">🎯 Quiz</button>
+                <button type="button" class="button menu-btn menu-btn-achievements" id="goAchievements">🏆 Conquistas</button>
             </div>
         </div>
     </section>
@@ -86,35 +96,72 @@
 
         <section class="battle-arena" id="battleArena">
             <h2 class="battle-title">Arena de Batalha ⚔️</h2>
+            <p class="battle-subtitle">Monte um time de 1 a 6 Pokémon pra cada lado</p>
 
             <div class="fighters-row">
                 <div class="fighter-picker">
                     <form class="fighter-form" id="fighter1Form">
-                        <input type="search" class="battle-input" id="fighter1Input" placeholder="Pokémon 1" required>
-                        <button type="submit" class="button btn-load">Carregar</button>
+                        <input type="search" class="battle-input" id="fighter1Input" placeholder="Adicionar Pokémon" required>
+                        <button type="submit" class="button btn-load">+ Add</button>
                     </form>
                     <div class="fighter-card" id="fighter1Card">
-                        <p class="fighter-placeholder">❔<br>Escolha o primeiro lutador</p>
+                        <p class="fighter-placeholder">❔<br>Monte seu time (1 a 6)</p>
                     </div>
+                    <div class="roster-strip" id="roster1Strip"></div>
                 </div>
 
                 <span class="vs-badge">VS</span>
 
                 <div class="fighter-picker">
                     <form class="fighter-form" id="fighter2Form">
-                        <input type="search" class="battle-input" id="fighter2Input" placeholder="Pokémon 2" required>
-                        <button type="submit" class="button btn-load">Carregar</button>
+                        <input type="search" class="battle-input" id="fighter2Input" placeholder="Adicionar Pokémon" required>
+                        <button type="submit" class="button btn-load">+ Add</button>
                     </form>
                     <div class="fighter-card" id="fighter2Card">
-                        <p class="fighter-placeholder">❔<br>Escolha o segundo lutador</p>
+                        <p class="fighter-placeholder">❔<br>Monte seu time (1 a 6)</p>
                     </div>
+                    <div class="roster-strip" id="roster2Strip"></div>
                 </div>
             </div>
 
-            <button type="button" class="button btn-fight" id="fightButton" disabled>Lutar! 🔥</button>
+            <div class="battle-actions">
+                <button type="button" class="button btn-fight" id="fightButton" disabled>Lutar! 🔥</button>
+                <button type="button" class="button btn-reset" id="resetTeamsButton">🔄 Reiniciar times</button>
+            </div>
 
             <div class="battle-log" id="battleLog"></div>
         </section>
+    </section>
+
+    <section class="screen quiz-screen" id="quizScreen">
+        <button type="button" class="button btn-back" data-back>🏠 Menu</button>
+
+        <div class="quiz-card">
+            <h2 class="quiz-title">Quem é esse Pokémon? 🎯</h2>
+            <p class="quiz-score">Acertos: <span id="quizScore">0</span> · Sequência: <span id="quizStreak">0</span></p>
+
+            <div class="quiz-silhouette-wrap">
+                <img id="quizImage" class="quiz-silhouette" src="" alt="Pokémon misterioso">
+            </div>
+
+            <form class="quiz-form" id="quizForm">
+                <input type="text" id="quizInput" class="battle-input" placeholder="Nome do Pokémon" autocomplete="off" required>
+                <button type="submit" class="button btn-load">Palpite</button>
+            </form>
+
+            <p class="quiz-feedback" id="quizFeedback"></p>
+            <button type="button" class="button btn-fight" id="quizNext" hidden>Próximo ➡️</button>
+        </div>
+    </section>
+
+    <section class="screen achievements-screen" id="achievementsScreen">
+        <button type="button" class="button btn-back" data-back>🏠 Menu</button>
+
+        <div class="achievements-card">
+            <h2 class="achievements-title">Conquistas 🏆</h2>
+            <p class="achievements-count" id="achievementsCount">0 / 0</p>
+            <div class="achievements-grid" id="achievementsGrid"></div>
+        </div>
     </section>
 </body>
 

@@ -1,9 +1,11 @@
-// Controla a troca entre as telas: Menu, Pokédex e Batalha.
+// Controla a troca entre as telas: Menu, Pokédex, Batalha, Quiz e Conquistas.
 
 const screens = {
     menu: document.getElementById('menuScreen'),
     pokedex: document.getElementById('pokedexScreen'),
     battle: document.getElementById('battleScreen'),
+    quiz: document.getElementById('quizScreen'),
+    achievements: document.getElementById('achievementsScreen'),
 };
 
 const showScreen = (name) => {
@@ -15,6 +17,14 @@ const showScreen = (name) => {
 
 document.getElementById('goPokedex').addEventListener('click', () => showScreen('pokedex'));
 document.getElementById('goBattle').addEventListener('click', () => showScreen('battle'));
+document.getElementById('goAchievements').addEventListener('click', () => {
+    renderAchievementsScreen();
+    showScreen('achievements');
+});
+document.getElementById('goQuiz').addEventListener('click', () => {
+    showScreen('quiz');
+    loadQuizRound();
+});
 
 document.querySelectorAll('[data-back]').forEach((button) => {
     button.addEventListener('click', () => showScreen('menu'));

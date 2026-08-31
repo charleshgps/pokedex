@@ -51,6 +51,7 @@ body::before {
 }
 
 .menu-card {
+    position: relative;
     background: linear-gradient(160deg, #e74c3c, #a83226);
     border: 3px solid #333;
     border-radius: 20px;
@@ -126,4 +127,12 @@ body::before {
 
 .menu-btn-battle {
     background-color: #1b1b1b;
+}
+
+.menu-btn-quiz {
+    background-color: #1a5276;
+}
+
+.menu-btn-achievements {
+    background-color: #7d6608;
 }
