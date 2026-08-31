@@ -65,8 +65,11 @@
     .pokemon_types {
         position: absolute;
         bottom: 80%;
-        left: 55%;
+        right: 4%;
+        max-width: 68%;
         display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-end;
         gap: 4px;
     }
 
@@ -226,4 +229,21 @@
         font-size: 0.8rem;
     }
 
+}
+
+/* Telas bem estreitas (ex: iPhone SE, ~320-360px): o aparelho encolhe mas
+   `.table` usava `top`/`padding` fixos em px, então crescia demais em
+   proporção e cortava/sobrepunha os botões Prev/Next. Aqui ela encolhe
+   junto. */
+@media screen and (max-width: 360px) {
+
+    .table {
+        top: 48px;
+        padding: 14px;
+    }
+
+    th,
+    td {
+        font-size: 10px;
+    }
 }

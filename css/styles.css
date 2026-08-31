@@ -60,8 +60,11 @@ td span {
 .pokemon_types {
     position: absolute;
     bottom: 80%;
-    left: 55%;
+    right: 5%;
+    max-width: 68%;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 6px;
 }
 
