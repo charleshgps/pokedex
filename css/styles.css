@@ -68,15 +68,26 @@ td span {
     gap: 6px;
 }
 
+/* Badges de tipo no estilo dos Símbolos de Energia do TCG: um círculo
+   colorido e "glossy" com o glifo do tipo no meio, igual às cartas. */
 .pokemon_type0,
 .pokemon_type1 {
-    padding: 5px 12px;
-    font-size: 18px;
-    text-transform: capitalize;
-    border-radius: 20px;
-    border: 2px solid #333;
-    box-shadow: -3px 4px 0 #888, -5px 7px 0 #333, inset 0 1px 0 rgba(255, 255, 255, 0.35);
-    white-space: nowrap;
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2.5px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.4), 0 0 0 2px #333, inset 0 2px 3px rgba(255, 255, 255, 0.5), inset 0 -3px 4px rgba(0, 0, 0, 0.25);
+}
+
+.type-energy-svg {
+    width: 60%;
+    height: 60%;
+    color: #fff;
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.55));
 }
 
 .pokemon_image {

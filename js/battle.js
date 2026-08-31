@@ -109,7 +109,7 @@ const renderFighterCard = (cardEl, fighter) => {
         <img src="${fighter.sprite}" alt="${fighter.name}" class="fighter-sprite">
         <p class="fighter-name">#${fighter.id} ${capitalize(fighter.name)}</p>
         <p class="fighter-types">
-            ${fighter.types.map((type) => `<span class="type-badge" data-type="${type}">${getTypeIcon(type)} ${capitalize(type)}</span>`).join('')}
+            ${fighter.types.map((type) => `<span class="type-badge" data-type="${type}" title="${capitalize(type)}" aria-label="${type}">${getTypeEnergySVG(type)}</span>`).join('')}
         </p>
         <div class="hp-bar-container"><div class="hp-bar"></div></div>
         <p class="hp-text"></p>

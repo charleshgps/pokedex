@@ -184,13 +184,22 @@
 }
 
 .type-badge {
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    text-transform: capitalize;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 0 0 1.5px #333, inset 0 1px 2px rgba(255, 255, 255, 0.5), inset 0 -2px 3px rgba(0, 0, 0, 0.25);
+}
+
+.type-badge .type-energy-svg {
+    width: 62%;
+    height: 62%;
     color: #fff;
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.55));
 }
 
 .hp-bar-container {

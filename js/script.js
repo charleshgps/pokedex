@@ -57,10 +57,10 @@ const setShinyState = (shiny) => {
 };
 
 const applyTypeBadge = (el, type) => {
-    el.innerHTML = `${getTypeIcon(type)} ${type}`;
+    el.innerHTML = getTypeEnergySVG(type);
     el.style.background = getTypeGradient(type);
-    el.style.color = '#fff';
-    el.style.textShadow = '1px 1px 1px rgba(0, 0, 0, 0.4)';
+    el.title = capitalize(type);
+    el.setAttribute('aria-label', type);
 };
 
 const getSpriteUrl = (data, shiny) => {
