@@ -62,9 +62,36 @@
     gap: 8px;
 }
 
+.fighter-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+.filter-select {
+    flex: 1 1 auto;
+    min-width: 0;
+    padding: 4px;
+    outline: none;
+    border: 2px solid #333;
+    border-radius: 5px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    background-color: var(--input-bg);
+    cursor: pointer;
+}
+
 .fighter-form {
     display: flex;
     gap: 6px;
+}
+
+.btn-random {
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    background-color: #8e44ad;
 }
 
 .battle-input {
