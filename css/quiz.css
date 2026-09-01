@@ -62,3 +62,100 @@
 .quiz-feedback.wrong {
     color: #e74c3c;
 }
+
+/* Abas de modo (Visual / Som / Contrarrelógio) */
+
+.quiz-modes {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.quiz-modes .mode-tab {
+    flex: 1 1 auto;
+    padding: 8px 4px;
+    font-size: 0.7rem;
+}
+
+.quiz-timer {
+    font-weight: 700;
+    color: #e74c3c;
+    margin: -8px 0 12px;
+}
+
+/* Modo Som: esconde o sprite e mostra um ícone de alto-falante até o
+   palpite ser respondido, quando o sprite real aparece revealed. */
+
+#quizSilhouetteWrap {
+    position: relative;
+}
+
+.quiz-sound-icon {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+}
+
+.quiz-replay-cry {
+    width: auto;
+    margin: 0 auto 12px;
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    background-color: #1a5276;
+}
+
+/* Painéis do Contrarrelógio (intro com placar / resumo de fim de sessão) */
+
+.quiz-timed-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.quiz-timeup-text {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.quiz-leaderboard-title {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.quiz-leaderboard {
+    list-style: none;
+    width: 100%;
+    max-width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.quiz-leaderboard li {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 10px;
+    border: 2px solid #333;
+    border-radius: 6px;
+    background-color: var(--surface-alt);
+    font-size: 0.8rem;
+}
+
+.quiz-leaderboard-score {
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.quiz-leaderboard-date {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+}
+
+.quiz-leaderboard-empty {
+    justify-content: center;
+    color: var(--text-muted);
+}

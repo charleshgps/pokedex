@@ -187,16 +187,16 @@ const addFighterToTeam = async (team, input, card, strip) => {
     if (!query) return;
 
     if (team.roster.length >= MAX_TEAM_SIZE) {
-        logMessage(`⚠️ Esse time já tem o máximo de ${MAX_TEAM_SIZE} Pokémon.`);
+        logMessage(t('battle.teamFullWarn', { max: MAX_TEAM_SIZE }));
         return;
     }
 
     const wasEmpty = team.roster.length === 0;
-    if (wasEmpty) card.innerHTML = '<p class="fighter-placeholder">Carregando...</p>';
+    if (wasEmpty) card.innerHTML = `<p class="fighter-placeholder">${t('battle.loadingFighter')}</p>`;
 
     const fighter = await fetchFighter(query);
     if (!fighter) {
-        if (wasEmpty) card.innerHTML = '<p class="fighter-placeholder">❔<br>Pokémon não encontrado :c</p>';
+        if (wasEmpty) card.innerHTML = `<p class="fighter-placeholder">${t('battle.notFound')}</p>`;
         return;
     }
 
@@ -226,8 +226,8 @@ resetTeamsButton.addEventListener('click', () => {
     team1.activeIndex = 0;
     team2.roster = [];
     team2.activeIndex = 0;
-    fighter1Card.innerHTML = '<p class="fighter-placeholder">❔<br>Monte seu time (1 a 6)</p>';
-    fighter2Card.innerHTML = '<p class="fighter-placeholder">❔<br>Monte seu time (1 a 6)</p>';
+    fighter1Card.innerHTML = `<p class="fighter-placeholder">${t('battle.placeholder')}</p>`;
+    fighter2Card.innerHTML = `<p class="fighter-placeholder">${t('battle.placeholder')}</p>`;
     roster1Strip.innerHTML = '';
     roster2Strip.innerHTML = '';
     battleLog.innerHTML = '';
@@ -238,26 +238,40 @@ resetTeamsButton.addEventListener('click', () => {
         side.categorySelect.value = '';
     });
     updateFightButtonState();
+    document.dispatchEvent(new CustomEvent('pokedex:teamsReset'));
 });
 
 // Popula os selects de tipo e geração (as opções de categoria já vêm
 // prontas no HTML, já que a lista é curta e fixa).
 const capitalizeType = (type) => capitalize(type.replace(/-/g, ' '));
 
-battleSides.forEach((side) => {
-    Object.keys(TYPE_COLORS).forEach((type) => {
-        const option = document.createElement('option');
-        option.value = type;
-        option.textContent = capitalizeType(type);
-        side.typeSelect.appendChild(option);
+const populateFilterSelects = () => {
+    battleSides.forEach((side) => {
+        const previousType = side.typeSelect.value;
+        const previousGen = side.genSelect.value;
+        side.typeSelect.innerHTML = `<option value="" data-i18n="battle.typeFilter">${t('battle.typeFilter')}</option>`;
+        side.genSelect.innerHTML = `<option value="" data-i18n="battle.genFilter">${t('battle.genFilter')}</option>`;
+
+        Object.keys(TYPE_COLORS).forEach((type) => {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = capitalizeType(type);
+            side.typeSelect.appendChild(option);
+        });
+        GENERATIONS.forEach((gen) => {
+            const option = document.createElement('option');
+            option.value = gen.id;
+            option.textContent = t(gen.labelKey);
+            side.genSelect.appendChild(option);
+        });
+
+        side.typeSelect.value = previousType;
+        side.genSelect.value = previousGen;
     });
-    GENERATIONS.forEach((gen) => {
-        const option = document.createElement('option');
-        option.value = gen.id;
-        option.textContent = gen.label;
-        side.genSelect.appendChild(option);
-    });
-});
+};
+
+populateFilterSelects();
+document.addEventListener('pokedex:langChange', populateFilterSelects);
 
 const currentFilters = (side) => ({
     type: side.typeSelect.value || null,
@@ -291,14 +305,14 @@ battleSides.forEach((side) => {
     side.randomButton.addEventListener('click', async () => {
         if (battleInProgress) return;
         if (side.team.roster.length >= MAX_TEAM_SIZE) {
-            logMessage(`⚠️ Esse time já tem o máximo de ${MAX_TEAM_SIZE} Pokémon.`);
+            logMessage(t('battle.teamFullWarn', { max: MAX_TEAM_SIZE }));
             return;
         }
         side.randomButton.disabled = true;
         try {
             const candidates = await getFilteredCandidates(currentFilters(side));
             if (candidates.length === 0) {
-                logMessage('⚠️ Nenhum Pokémon encontrado com esses filtros.');
+                logMessage(t('battle.log.noCandidates'));
                 return;
             }
             const pick = candidates[Math.floor(Math.random() * candidates.length)];
@@ -374,7 +388,7 @@ const advanceIfFainted = (side) => {
     const next = getActive(side.team);
     renderFighterCard(side.card, next);
     renderRosterStrip(side.strip, side.team);
-    logMessage(`🔄 ${side.label} manda ${capitalize(next.name)} para a batalha!`);
+    logMessage(t('battle.log.switch', { label: side.label, name: capitalize(next.name) }));
     return true;
 };
 
@@ -393,12 +407,22 @@ const recordBattleWin = (winnerFighterName) => {
     if (streak.count >= 3) unlockAchievement('win_streak_3');
 };
 
-const endBattle = (winningSide) => {
-    logMessage(`🏆 ${winningSide.label} venceu com ${capitalize(getActive(winningSide.team).name)}!`);
+const endBattle = (winningSide, losingSide) => {
+    const winner = getActive(winningSide.team);
+    const loser = getActive(losingSide.team);
+    const winnerName = capitalize(winner.name);
+    logMessage(t('battle.log.win', { label: winningSide.label, name: winnerName }));
     spawnConfetti();
-    recordBattleWin(capitalize(getActive(winningSide.team).name));
+    recordBattleWin(winnerName);
+    if (typeof addHallOfFameEntry === 'function') addHallOfFameEntry(winner, loser);
     battleInProgress = false;
     updateFightButtonState();
+    // Evento genérico pra quem quiser reagir ao fim de uma luta (ex: o Modo
+    // Campanha, pra saber se avança de estágio ou deixa tentar de novo) sem
+    // acoplar esse arquivo à lógica de campanha.
+    document.dispatchEvent(new CustomEvent('pokedex:battleEnd', {
+        detail: { winnerIsTeam1: winningSide.team === team1, winnerName },
+    }));
 };
 
 const runBattle = async () => {
@@ -416,11 +440,11 @@ const runBattle = async () => {
     renderRosterStrip(roster1Strip, team1);
     renderRosterStrip(roster2Strip, team2);
 
-    logMessage(`⚔️ Time 1 (${team1.roster.length} Pokémon) VS Time 2 (${team2.roster.length} Pokémon)!`);
+    logMessage(t('battle.log.start', { count1: team1.roster.length, count2: team2.roster.length }));
     await sleep(500);
 
-    const sideA = { team: team1, card: fighter1Card, strip: roster1Strip, label: 'Time 1' };
-    const sideB = { team: team2, card: fighter2Card, strip: roster2Strip, label: 'Time 2' };
+    const sideA = { team: team1, card: fighter1Card, strip: roster1Strip, label: t('battle.team1Label') };
+    const sideB = { team: team2, card: fighter2Card, strip: roster2Strip, label: t('battle.team2Label') };
 
     let round = 1;
     while (round <= 200) {
@@ -428,8 +452,8 @@ const runBattle = async () => {
         const second = first === sideA ? sideB : sideA;
 
         for (const [attackerSide, defenderSide] of [[first, second], [second, first]]) {
-            if (!advanceIfFainted(attackerSide)) return endBattle(defenderSide);
-            if (!advanceIfFainted(defenderSide)) return endBattle(attackerSide);
+            if (!advanceIfFainted(attackerSide)) return endBattle(defenderSide, attackerSide);
+            if (!advanceIfFainted(defenderSide)) return endBattle(attackerSide, defenderSide);
 
             const attacker = getActive(attackerSide.team);
             const defender = getActive(defenderSide.team);
@@ -440,11 +464,17 @@ const runBattle = async () => {
             shakeCard(defenderSide.card);
             renderRosterStrip(defenderSide.strip, defenderSide.team);
 
-            let message = `${attackerSide === sideA ? '🔵' : '🔴'} ${capitalize(attacker.name)} usou ${move.name}! Causa ${damage} de dano em ${capitalize(defender.name)}.`;
-            if (isCrit) message += ' 💥 Crítico!';
-            if (struggling) message += ' 😖 Não afeta, tenta um golpe de desespero!';
-            else if (multiplier > 1) message += ' Super efetivo!';
-            else if (multiplier < 1) message += ' Pouco efetivo...';
+            let message = t('battle.log.attack', {
+                emoji: attackerSide === sideA ? '🔵' : '🔴',
+                attacker: capitalize(attacker.name),
+                move: move.name,
+                damage,
+                defender: capitalize(defender.name),
+            });
+            if (isCrit) message += t('battle.log.crit');
+            if (struggling) message += t('battle.log.struggle');
+            else if (multiplier > 1) message += t('battle.log.superEffective');
+            else if (multiplier < 1) message += t('battle.log.notVeryEffective');
             logMessage(message);
 
             await sleep(900);

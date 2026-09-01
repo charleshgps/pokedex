@@ -210,12 +210,32 @@
     }
 
     .quiz-card,
-    .achievements-card {
+    .achievements-card,
+    .hall-of-fame-card {
         padding: 16px;
     }
 
     .achievements-grid {
         grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .hall-of-fame-grid {
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    }
+
+    .pokedex-extra {
+        padding: 12px;
+    }
+
+    .extra-tab,
+    .quiz-modes .mode-tab,
+    .mode-tab {
+        font-size: 0.62rem;
+        padding: 7px 3px;
+    }
+
+    .campaign-panel {
+        flex-direction: column;
     }
 
     .achievement-toast {

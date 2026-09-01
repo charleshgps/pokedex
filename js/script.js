@@ -99,7 +99,7 @@ const fetchPokemon = async (pokemon) => {
 
 const renderPokemon = async (pokemon) => {
     const currentRequest = ++requestId;
-    pokemonName.innerHTML = 'Loading . . .';
+    pokemonName.innerHTML = t('pokedex.loadingName');
 
     let data;
     try {
@@ -139,13 +139,15 @@ const renderPokemon = async (pokemon) => {
         playCry(data);
         trackViewed(data.id);
         if (foundShinyByLuck) unlockAchievement('shiny_luck');
+        if (typeof renderPokemonDetails === 'function') renderPokemonDetails(data);
     } else {
         currentPokemonData = null;
         pokemonImage.src = './images/icons8-error-96.png';
         pokemonImage.alt = 'pokemon not found';
         pokemonType1.style.display = 'none';
         pokemonNumber.innerHTML = '';
-        pokemonName.innerHTML = 'Not found :c';
+        pokemonName.innerHTML = t('pokedex.notFound');
+        if (typeof clearPokemonDetails === 'function') clearPokemonDetails();
     }
 }
 
