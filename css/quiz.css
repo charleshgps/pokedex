@@ -93,10 +93,16 @@
 .quiz-sound-icon {
     position: absolute;
     inset: 0;
-    display: flex;
     align-items: center;
     justify-content: center;
     font-size: 3rem;
+}
+
+/* Sem isso, a especificidade de .quiz-sound-icon empata com [hidden] do
+   navegador e, por ser regra de autor, vence — o ícone ficava visível mesmo
+   com o atributo hidden (aparecia por cima da silhueta no modo Visual). */
+.quiz-sound-icon:not([hidden]) {
+    display: flex;
 }
 
 .quiz-replay-cry {
@@ -110,10 +116,16 @@
 /* Painéis do Contrarrelógio (intro com placar / resumo de fim de sessão) */
 
 .quiz-timed-panel {
-    display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
+}
+
+/* Sem isso, a especificidade de .quiz-timed-panel empataria com [hidden] do
+   navegador e, por ser regra de autor, venceria — o painel apareceria
+   mesmo escondido pelo atributo hidden. */
+.quiz-timed-panel:not([hidden]) {
+    display: flex;
 }
 
 .quiz-timeup-text {
