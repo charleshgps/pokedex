@@ -63,9 +63,15 @@
 }
 
 .fighter-filters {
-    display: flex;
     flex-wrap: wrap;
     gap: 4px;
+}
+
+/* Sem isso, a especificidade de .fighter-filters empataria com [hidden] do
+   navegador e, por ser regra de autor, venceria — os filtros do time 2
+   apareceriam mesmo escondidos pelo Modo Campanha. */
+.fighter-filters:not([hidden]) {
+    display: flex;
 }
 
 .filter-select {
@@ -325,7 +331,6 @@
 
 .campaign-panel {
     width: 100%;
-    display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
@@ -334,6 +339,13 @@
     border: 2px solid #333;
     border-radius: 8px;
     padding: 10px 14px;
+}
+
+/* Sem isso, a especificidade de .campaign-panel empataria com [hidden] do
+   navegador e, por ser regra de autor, venceria — o painel apareceria
+   mesmo escondido pelo atributo hidden. */
+.campaign-panel:not([hidden]) {
+    display: flex;
 }
 
 .campaign-stage-label {
