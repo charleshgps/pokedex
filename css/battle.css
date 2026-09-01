@@ -302,3 +302,49 @@
 .battle-log p:last-child {
     margin-bottom: 0;
 }
+
+/* Abas Livre / Campanha */
+
+.battle-mode-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.mode-tab {
+    width: auto;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    background-color: #555;
+}
+
+.mode-tab.active {
+    background-color: #e74c3c;
+}
+
+/* Painel do Modo Campanha */
+
+.campaign-panel {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: var(--surface-alt);
+    border: 2px solid #333;
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.campaign-stage-label {
+    font-weight: 700;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.campaign-restart {
+    width: auto;
+    padding: 6px 14px;
+    font-size: 0.75rem;
+    background-color: #555;
+}

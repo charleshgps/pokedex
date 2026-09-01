@@ -23,3 +23,30 @@ const writeJSON = (key, value) => {
         // ignora erro de storage (navegação privada, storage desabilitado, etc.)
     }
 };
+
+// Busca genérica com timeout implícito do fetch e retorno null em qualquer
+// falha (rede, 404, JSON inválido) — usado pelos módulos novos (detalhes,
+// campanha, etc.) que só precisam do "me dá os dados ou nada".
+const fetchJSON = async (url) => {
+    try {
+        const res = await fetch(url);
+        if (!res.ok) return null;
+        return await res.json();
+    } catch (error) {
+        return null;
+    }
+};
+
+const idFromUrl = (url) => Number(url.split('/').filter(Boolean).pop());
+
+// Formata uma data ISO no padrão local (dd/mm/aaaa hh:mm), usado pelo Hall
+// da Fama. Cai pro texto cru se a data vier inválida.
+const formatDateTime = (isoString) => {
+    try {
+        return new Date(isoString).toLocaleString(currentLang === 'en' ? 'en-US' : 'pt-BR', {
+            day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit',
+        });
+    } catch (error) {
+        return isoString;
+    }
+};

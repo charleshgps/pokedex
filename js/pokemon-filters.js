@@ -2,16 +2,19 @@
 // (lendário/mítico/comum) no modo Batalha. Compartilhado entre battle.js
 // e qualquer outra tela que queira montar um combo box filtrado.
 
+// `labelKey` aponta pra uma chave do dicionário de i18n.js (carregado antes
+// deste arquivo) em vez de um texto fixo, pra a lista de gerações também
+// virar inglês quando o idioma é trocado.
 const GENERATIONS = [
-    { id: 1, label: 'Geração 1 (Kanto)' },
-    { id: 2, label: 'Geração 2 (Johto)' },
-    { id: 3, label: 'Geração 3 (Hoenn)' },
-    { id: 4, label: 'Geração 4 (Sinnoh)' },
-    { id: 5, label: 'Geração 5 (Unova)' },
-    { id: 6, label: 'Geração 6 (Kalos)' },
-    { id: 7, label: 'Geração 7 (Alola)' },
-    { id: 8, label: 'Geração 8 (Galar)' },
-    { id: 9, label: 'Geração 9 (Paldea)' },
+    { id: 1, labelKey: 'battle.gen1' },
+    { id: 2, labelKey: 'battle.gen2' },
+    { id: 3, labelKey: 'battle.gen3' },
+    { id: 4, labelKey: 'battle.gen4' },
+    { id: 5, labelKey: 'battle.gen5' },
+    { id: 6, labelKey: 'battle.gen6' },
+    { id: 7, labelKey: 'battle.gen7' },
+    { id: 8, labelKey: 'battle.gen8' },
+    { id: 9, labelKey: 'battle.gen9' },
 ];
 
 // Lendários e míticos "de espécie" (sem contar formas regionais/mega/gmax,
@@ -39,7 +42,7 @@ const MYTHICAL_POKEMON = new Set([
     'zarude', 'pecharunt',
 ]);
 
-const idFromUrl = (url) => Number(url.split('/').filter(Boolean).pop());
+// idFromUrl vem de utils.js (compartilhado com os módulos novos).
 
 let allPokemonListPromise = null;
 // Lista completa (nome + id) usada quando nenhum filtro de tipo/geração

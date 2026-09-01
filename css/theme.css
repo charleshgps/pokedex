@@ -27,3 +27,9 @@ html[data-theme="dark"] {
     top: 14px;
     right: 14px;
 }
+
+.lang-toggle {
+    position: absolute;
+    top: 14px;
+    right: 52px;
+}

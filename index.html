@@ -5,51 +5,64 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#e74c3c">
     <!-- LINKS -->
     <link rel="icon" href="./favicons/favicon-16x16.png">
+    <link rel="apple-touch-icon" href="./images/icons/icon-192.png">
+    <link rel="manifest" href="./manifest.json">
     <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="./css/media.css">
     <link rel="stylesheet" href="./css/theme.css">
     <link rel="stylesheet" href="./css/screens.css">
+    <link rel="stylesheet" href="./css/details.css">
     <link rel="stylesheet" href="./css/battle.css">
     <link rel="stylesheet" href="./css/quiz.css">
     <link rel="stylesheet" href="./css/achievements.css">
+    <link rel="stylesheet" href="./css/hall-of-fame.css">
     <!-- SCRIPT -->
     <script defer src="./js/utils.js"></script>
+    <script defer src="./js/i18n.js"></script>
     <script defer src="./js/type-colors.js"></script>
     <script defer src="./js/pokemon-filters.js"></script>
     <script defer src="./js/achievements.js"></script>
     <script defer src="./js/theme.js"></script>
     <script defer src="./js/script.js"></script>
+    <script defer src="./js/pokemon-details.js"></script>
     <script defer src="./js/battle.js"></script>
+    <script defer src="./js/campaign.js"></script>
+    <script defer src="./js/hall-of-fame.js"></script>
     <script defer src="./js/quiz.js"></script>
     <script defer src="./js/navigation.js"></script>
+    <script defer src="./js/pwa-register.js"></script>
     <title>Pokedex</title>
 </head>
 
 <body>
     <section class="screen menu-screen active" id="menuScreen">
         <div class="menu-card">
-            <button type="button" class="icon-btn theme-toggle" id="themeToggle" title="Alternar tema">☀️</button>
+            <button type="button" class="icon-btn theme-toggle" id="themeToggle" data-i18n-title="menu.themeTitle" title="Alternar tema">☀️</button>
+            <button type="button" class="icon-btn lang-toggle" id="langToggle" data-i18n-title="menu.langTitle" title="Idioma / Language">🇺🇸</button>
             <div class="menu-pokeball"></div>
             <h1 class="menu-title">Pokédex</h1>
-            <p class="menu-subtitle">Explore, batalhe, divirta-se</p>
+            <p class="menu-subtitle" data-i18n="menu.subtitle">Explore, batalhe, divirta-se</p>
             <div class="menu-buttons">
-                <button type="button" class="button menu-btn" id="goPokedex">📖 Pokédex</button>
-                <button type="button" class="button menu-btn menu-btn-battle" id="goBattle">⚔️ Batalha</button>
-                <button type="button" class="button menu-btn menu-btn-quiz" id="goQuiz">🎯 Quiz</button>
-                <button type="button" class="button menu-btn menu-btn-achievements" id="goAchievements">🏆 Conquistas</button>
+                <button type="button" class="button menu-btn" id="goPokedex" data-i18n="menu.pokedex">📖 Pokédex</button>
+                <button type="button" class="button menu-btn menu-btn-battle" id="goBattle" data-i18n="menu.battle">⚔️ Batalha</button>
+                <button type="button" class="button menu-btn menu-btn-quiz" id="goQuiz" data-i18n="menu.quiz">🎯 Quiz</button>
+                <button type="button" class="button menu-btn menu-btn-achievements" id="goAchievements" data-i18n="menu.achievements">🏆 Conquistas</button>
+                <button type="button" class="button menu-btn menu-btn-hall-of-fame" id="goHallOfFame" data-i18n="menu.hallOfFame">🏅 Hall da Fama</button>
             </div>
         </div>
     </section>
 
     <section class="screen pokedex-screen" id="pokedexScreen">
         <div class="pokedex-topbar">
-            <button type="button" class="button btn-back" data-back>🏠 Menu</button>
+            <button type="button" class="button btn-back" data-back data-i18n="common.backMenu">🏠 Menu</button>
             <div class="fun_toolbar">
-                <button type="button" class="icon-btn btn-shiny" title="Alternar sprite shiny">✨</button>
-                <button type="button" class="icon-btn btn-sound" title="Ativar/desativar som">🔊</button>
-                <input type="range" class="sound-volume" id="soundVolume" min="0" max="100" value="50" title="Volume do som">
+                <button type="button" class="icon-btn btn-favorite" id="btnFavorite" data-i18n-title="pokedex.favoriteAdd" title="Favoritar">☆</button>
+                <button type="button" class="icon-btn btn-shiny" data-i18n-title="pokedex.shinyTitle" title="Alternar sprite shiny">✨</button>
+                <button type="button" class="icon-btn btn-sound" data-i18n-title="pokedex.soundTitle" title="Ativar/desativar som">🔊</button>
+                <input type="range" class="sound-volume" id="soundVolume" min="0" max="100" value="50" data-i18n-title="pokedex.volumeTitle" title="Volume do som">
             </div>
         </div>
 
@@ -65,7 +78,7 @@
             </h1>
 
             <form class="form">
-                <input type="search" class="input_search" placeholder="&#128269; Nome ou número" required />
+                <input type="search" class="input_search" data-i18n-placeholder="pokedex.searchPlaceholder" placeholder="&#128269; Nome ou número" required />
                 <table class="table">
                     <tr>
                         <th>HP</th>
@@ -86,46 +99,71 @@
                 </table>
             </form>
             <div class="buttons">
-                <button class="button btn-prev"> &lt Prev </button>
-                <button class="button btn-next"> Next &gt </button>
+                <button class="button btn-prev" data-i18n="pokedex.prev"> &lt Prev </button>
+                <button class="button btn-next" data-i18n="pokedex.next"> Next &gt </button>
             </div>
 
 
             <img src="./images/pokedex.png" alt="Pokedex" class="pokedex">
         </main>
+
+        <div class="pokedex-extra" id="pokedexExtra">
+            <div class="extra-tabs">
+                <button type="button" class="extra-tab active" data-tab="about" data-i18n="pokedex.tabAbout">Sobre</button>
+                <button type="button" class="extra-tab" data-tab="weaknesses" data-i18n="pokedex.tabWeaknesses">Fraquezas</button>
+                <button type="button" class="extra-tab" data-tab="evolution" data-i18n="pokedex.tabEvolution">Evolução</button>
+                <button type="button" class="extra-tab" data-tab="favorites" data-i18n="pokedex.tabFavorites">⭐ Favoritos</button>
+            </div>
+            <div class="extra-panel active" id="extraPanelAbout">
+                <p class="pokemon-description" id="pokemonDescription"></p>
+            </div>
+            <div class="extra-panel" id="extraPanelWeaknesses"></div>
+            <div class="extra-panel" id="extraPanelEvolution"></div>
+            <div class="extra-panel" id="extraPanelFavorites"></div>
+        </div>
     </section>
 
     <section class="screen battle-screen" id="battleScreen">
-        <button type="button" class="button btn-back" data-back>🏠 Menu</button>
+        <button type="button" class="button btn-back" data-back data-i18n="common.backMenu">🏠 Menu</button>
 
         <section class="battle-arena" id="battleArena">
-            <h2 class="battle-title">Arena de Batalha ⚔️</h2>
-            <p class="battle-subtitle">Monte um time de 1 a 6 Pokémon pra cada lado</p>
+            <h2 class="battle-title" data-i18n="battle.title">Arena de Batalha ⚔️</h2>
+            <p class="battle-subtitle" data-i18n="battle.subtitle">Monte um time de 1 a 6 Pokémon pra cada lado</p>
+
+            <div class="battle-mode-tabs">
+                <button type="button" class="mode-tab active" id="battleModeFree" data-i18n="battle.modeFree">⚔️ Livre</button>
+                <button type="button" class="mode-tab" id="battleModeCampaign" data-i18n="battle.modeCampaign">🏅 Campanha</button>
+            </div>
+
+            <div class="campaign-panel" id="campaignPanel" hidden>
+                <p class="campaign-stage-label" id="campaignStageLabel"></p>
+                <button type="button" class="button campaign-restart" id="campaignRestart" data-i18n="campaign.restart">🔄 Reiniciar campanha</button>
+            </div>
 
             <div class="fighters-row">
                 <div class="fighter-picker">
                     <div class="fighter-filters">
-                        <select class="filter-select" id="fighter1Type" title="Filtrar por tipo">
-                            <option value="">Tipo</option>
+                        <select class="filter-select" id="fighter1Type" data-i18n-title="battle.typeFilter" title="Filtrar por tipo">
+                            <option value="" data-i18n="battle.typeFilter">Tipo</option>
                         </select>
-                        <select class="filter-select" id="fighter1Gen" title="Filtrar por geração">
-                            <option value="">Geração</option>
+                        <select class="filter-select" id="fighter1Gen" data-i18n-title="battle.genFilter" title="Filtrar por geração">
+                            <option value="" data-i18n="battle.genFilter">Geração</option>
                         </select>
-                        <select class="filter-select" id="fighter1Category" title="Filtrar por categoria">
-                            <option value="">Categoria</option>
-                            <option value="legendary">Lendário</option>
-                            <option value="mythical">Mítico</option>
-                            <option value="normal">Comum</option>
+                        <select class="filter-select" id="fighter1Category" data-i18n-title="battle.categoryFilter" title="Filtrar por categoria">
+                            <option value="" data-i18n="battle.categoryFilter">Categoria</option>
+                            <option value="legendary" data-i18n="battle.categoryLegendary">Lendário</option>
+                            <option value="mythical" data-i18n="battle.categoryMythical">Mítico</option>
+                            <option value="normal" data-i18n="battle.categoryNormal">Comum</option>
                         </select>
                     </div>
                     <form class="fighter-form" id="fighter1Form">
-                        <input type="search" class="battle-input" id="fighter1Input" list="fighter1List" placeholder="Adicionar Pokémon" required autocomplete="off">
+                        <input type="search" class="battle-input" id="fighter1Input" list="fighter1List" data-i18n-placeholder="battle.addPlaceholder" placeholder="Adicionar Pokémon" required autocomplete="off">
                         <datalist id="fighter1List"></datalist>
-                        <button type="submit" class="button btn-load">+ Add</button>
+                        <button type="submit" class="button btn-load" data-i18n="battle.addButton">+ Add</button>
                     </form>
-                    <button type="button" class="button btn-random" id="fighter1Random">🎲 Aleatório</button>
+                    <button type="button" class="button btn-random" id="fighter1Random" data-i18n="battle.random">🎲 Aleatório</button>
                     <div class="fighter-card" id="fighter1Card">
-                        <p class="fighter-placeholder">❔<br>Monte seu time (1 a 6)</p>
+                        <p class="fighter-placeholder" data-i18n="battle.placeholder">❔<br>Monte seu time (1 a 6)</p>
                     </div>
                     <div class="roster-strip" id="roster1Strip"></div>
                 </div>
@@ -133,36 +171,38 @@
                 <span class="vs-badge">VS</span>
 
                 <div class="fighter-picker">
-                    <div class="fighter-filters">
-                        <select class="filter-select" id="fighter2Type" title="Filtrar por tipo">
-                            <option value="">Tipo</option>
+                    <div class="fighter-filters" id="fighter2Controls-filters">
+                        <select class="filter-select" id="fighter2Type" data-i18n-title="battle.typeFilter" title="Filtrar por tipo">
+                            <option value="" data-i18n="battle.typeFilter">Tipo</option>
                         </select>
-                        <select class="filter-select" id="fighter2Gen" title="Filtrar por geração">
-                            <option value="">Geração</option>
+                        <select class="filter-select" id="fighter2Gen" data-i18n-title="battle.genFilter" title="Filtrar por geração">
+                            <option value="" data-i18n="battle.genFilter">Geração</option>
                         </select>
-                        <select class="filter-select" id="fighter2Category" title="Filtrar por categoria">
-                            <option value="">Categoria</option>
-                            <option value="legendary">Lendário</option>
-                            <option value="mythical">Mítico</option>
-                            <option value="normal">Comum</option>
+                        <select class="filter-select" id="fighter2Category" data-i18n-title="battle.categoryFilter" title="Filtrar por categoria">
+                            <option value="" data-i18n="battle.categoryFilter">Categoria</option>
+                            <option value="legendary" data-i18n="battle.categoryLegendary">Lendário</option>
+                            <option value="mythical" data-i18n="battle.categoryMythical">Mítico</option>
+                            <option value="normal" data-i18n="battle.categoryNormal">Comum</option>
                         </select>
                     </div>
-                    <form class="fighter-form" id="fighter2Form">
-                        <input type="search" class="battle-input" id="fighter2Input" list="fighter2List" placeholder="Adicionar Pokémon" required autocomplete="off">
-                        <datalist id="fighter2List"></datalist>
-                        <button type="submit" class="button btn-load">+ Add</button>
-                    </form>
-                    <button type="button" class="button btn-random" id="fighter2Random">🎲 Aleatório</button>
+                    <div id="fighter2Controls">
+                        <form class="fighter-form" id="fighter2Form">
+                            <input type="search" class="battle-input" id="fighter2Input" list="fighter2List" data-i18n-placeholder="battle.addPlaceholder" placeholder="Adicionar Pokémon" required autocomplete="off">
+                            <datalist id="fighter2List"></datalist>
+                            <button type="submit" class="button btn-load" data-i18n="battle.addButton">+ Add</button>
+                        </form>
+                        <button type="button" class="button btn-random" id="fighter2Random" data-i18n="battle.random">🎲 Aleatório</button>
+                    </div>
                     <div class="fighter-card" id="fighter2Card">
-                        <p class="fighter-placeholder">❔<br>Monte seu time (1 a 6)</p>
+                        <p class="fighter-placeholder" data-i18n="battle.placeholder">❔<br>Monte seu time (1 a 6)</p>
                     </div>
                     <div class="roster-strip" id="roster2Strip"></div>
                 </div>
             </div>
 
             <div class="battle-actions">
-                <button type="button" class="button btn-fight" id="fightButton" disabled>Lutar! 🔥</button>
-                <button type="button" class="button btn-reset" id="resetTeamsButton">🔄 Reiniciar times</button>
+                <button type="button" class="button btn-fight" id="fightButton" data-i18n="battle.fight" disabled>Lutar! 🔥</button>
+                <button type="button" class="button btn-reset" id="resetTeamsButton" data-i18n="battle.resetTeams">🔄 Reiniciar times</button>
             </div>
 
             <div class="battle-log" id="battleLog"></div>
@@ -170,33 +210,76 @@
     </section>
 
     <section class="screen quiz-screen" id="quizScreen">
-        <button type="button" class="button btn-back" data-back>🏠 Menu</button>
+        <button type="button" class="button btn-back" data-back data-i18n="common.backMenu">🏠 Menu</button>
 
         <div class="quiz-card">
-            <h2 class="quiz-title">Quem é esse Pokémon? 🎯</h2>
-            <p class="quiz-score">Acertos: <span id="quizScore">0</span> · Sequência: <span id="quizStreak">0</span></p>
+            <h2 class="quiz-title" data-i18n="quiz.title">Quem é esse Pokémon? 🎯</h2>
 
-            <div class="quiz-silhouette-wrap">
-                <img id="quizImage" class="quiz-silhouette" src="" alt="Pokémon misterioso">
+            <div class="quiz-modes">
+                <button type="button" class="mode-tab active" id="quizModeVisual" data-i18n="quiz.modeVisual">👁️ Visual</button>
+                <button type="button" class="mode-tab" id="quizModeSound" data-i18n="quiz.modeSound">🔊 Som</button>
+                <button type="button" class="mode-tab" id="quizModeTimed" data-i18n="quiz.modeTimed">⏱️ Contrarrelógio</button>
             </div>
 
-            <form class="quiz-form" id="quizForm">
-                <input type="text" id="quizInput" class="battle-input" placeholder="Nome do Pokémon" autocomplete="off" required>
-                <button type="submit" class="button btn-load">Palpite</button>
-            </form>
+            <p class="quiz-score">
+                <span data-i18n="quiz.scoreLabel">Acertos</span>: <span id="quizScore">0</span> ·
+                <span data-i18n="quiz.streakLabel">Sequência</span>: <span id="quizStreak">0</span>
+            </p>
 
-            <p class="quiz-feedback" id="quizFeedback"></p>
-            <button type="button" class="button btn-fight" id="quizNext" hidden>Próximo ➡️</button>
+            <p class="quiz-timer" id="quizTimer" hidden></p>
+
+            <div id="quizPlayArea">
+                <div class="quiz-silhouette-wrap" id="quizSilhouetteWrap">
+                    <img id="quizImage" class="quiz-silhouette" src="" alt="Pokémon misterioso">
+                    <span class="quiz-sound-icon" id="quizSoundIcon" hidden>🔊</span>
+                </div>
+
+                <button type="button" class="button quiz-replay-cry" id="quizReplayCry" data-i18n="quiz.replayCry" hidden>🔊 Ouvir de novo</button>
+
+                <form class="quiz-form" id="quizForm">
+                    <input type="text" id="quizInput" class="battle-input" data-i18n-placeholder="quiz.guessPlaceholder" placeholder="Nome do Pokémon" autocomplete="off" required>
+                    <button type="submit" class="button btn-load" data-i18n="quiz.guessButton">Palpite</button>
+                </form>
+
+                <p class="quiz-feedback" id="quizFeedback"></p>
+                <button type="button" class="button btn-fight" id="quizNext" data-i18n="quiz.next" hidden>Próximo ➡️</button>
+            </div>
+
+            <div class="quiz-timed-panel" id="quizTimedIntro" hidden>
+                <p class="quiz-leaderboard-title" data-i18n="quiz.leaderboardTitle">Melhores pontuações</p>
+                <ol class="quiz-leaderboard" id="quizLeaderboardIntro"></ol>
+                <button type="button" class="button btn-fight" id="quizStartTimed" data-i18n="quiz.startTimed">▶️ Começar (60s)</button>
+            </div>
+
+            <div class="quiz-timed-panel" id="quizTimedSummary" hidden>
+                <p class="quiz-timeup-text" id="quizTimeUpText"></p>
+                <p class="quiz-leaderboard-title" data-i18n="quiz.leaderboardTitle">Melhores pontuações</p>
+                <ol class="quiz-leaderboard" id="quizLeaderboardSummary"></ol>
+                <button type="button" class="button btn-fight" id="quizPlayAgain" data-i18n="quiz.playAgain">🔁 Jogar de novo</button>
+            </div>
         </div>
     </section>
 
     <section class="screen achievements-screen" id="achievementsScreen">
-        <button type="button" class="button btn-back" data-back>🏠 Menu</button>
+        <button type="button" class="button btn-back" data-back data-i18n="common.backMenu">🏠 Menu</button>
 
         <div class="achievements-card">
-            <h2 class="achievements-title">Conquistas 🏆</h2>
+            <h2 class="achievements-title" data-i18n="achievements.title">Conquistas 🏆</h2>
             <p class="achievements-count" id="achievementsCount">0 / 0</p>
             <div class="achievements-grid" id="achievementsGrid"></div>
+        </div>
+    </section>
+
+    <section class="screen hall-of-fame-screen" id="hallOfFameScreen">
+        <button type="button" class="button btn-back" data-back data-i18n="common.backMenu">🏠 Menu</button>
+
+        <div class="hall-of-fame-card">
+            <h2 class="hall-of-fame-title" data-i18n="hallOfFame.title">Hall da Fama 🏅</h2>
+            <div class="hall-of-fame-actions">
+                <p class="hall-of-fame-count" id="hallOfFameCount"></p>
+                <button type="button" class="button hall-of-fame-clear" id="hallOfFameClear" data-i18n="hallOfFame.clear">🗑️ Limpar histórico</button>
+            </div>
+            <div class="hall-of-fame-grid" id="hallOfFameGrid"></div>
         </div>
     </section>
 </body>

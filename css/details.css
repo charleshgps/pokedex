@@ -1,0 +1,187 @@
+/* Painel de detalhes extras da Pokédex: abas de Sobre / Fraquezas /
+   Evolução / Favoritos, abaixo do aparelho. Segue o mesmo padrão visual
+   de "-card" usado em achievements.css e quiz.css. */
+
+.pokedex-extra {
+    width: min(92vw, 455px);
+    margin: 18px auto 40px;
+    padding: 16px;
+    background-color: var(--surface);
+    border: 3px solid #333;
+    border-radius: 16px;
+    box-shadow: -4px 5px 0 #888, -7px 9px 0 #333;
+    text-align: left;
+}
+
+.extra-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.extra-tab {
+    flex: 1 1 auto;
+    padding: 8px 6px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    background-color: var(--surface-alt);
+    color: var(--text-primary);
+    font-size: 0.72rem;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.extra-tab.active {
+    background-color: #e74c3c;
+    color: #fff;
+}
+
+.extra-panel {
+    display: none;
+    min-height: 60px;
+}
+
+.extra-panel.active {
+    display: block;
+}
+
+#extraPanelEvolution.active {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.pokemon-description {
+    color: var(--text-primary);
+    font-size: 0.85rem;
+    line-height: 1.5;
+}
+
+.extra-empty {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    text-align: center;
+    padding: 16px 0;
+}
+
+/* Fraquezas / resistências */
+
+.weakness-group {
+    margin-bottom: 12px;
+}
+
+.weakness-group:last-child {
+    margin-bottom: 0;
+}
+
+.weakness-label {
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.weakness-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.weakness-chip {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.35), 0 0 0 2px #333;
+}
+
+.weakness-chip .type-energy-svg {
+    width: 60%;
+    height: 60%;
+    color: #fff;
+}
+
+/* Cadeia evolutiva */
+
+.evolution-stage {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    align-items: center;
+}
+
+.evolution-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    background-color: var(--surface-alt);
+    padding: 6px;
+    cursor: pointer;
+    width: 76px;
+}
+
+.evolution-node img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.evolution-node span {
+    font-size: 0.65rem;
+    color: var(--text-primary);
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.evolution-arrow {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+}
+
+/* Favoritos */
+
+.favorites-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+}
+
+.favorite-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    border: 2px solid #333;
+    border-radius: 10px;
+    background-color: var(--surface-alt);
+    padding: 6px;
+    cursor: pointer;
+}
+
+.favorite-item img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    image-rendering: pixelated;
+}
+
+.favorite-item span {
+    font-size: 0.65rem;
+    color: var(--text-primary);
+    text-transform: capitalize;
+    text-align: center;
+}
+
+.btn-favorite.is-favorite {
+    color: #f1c40f;
+}
